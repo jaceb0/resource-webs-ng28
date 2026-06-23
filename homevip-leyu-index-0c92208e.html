@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>乐鱼 · 信息卡片式介绍</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f8f6f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+      color: #2e2a24;
+      line-height: 1.7;
+      padding: 2.5rem 1.25rem;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #fdfcfa;
+      border-radius: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.02);
+      padding: 3rem 2rem;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1.25rem 0.75rem;
+      }
+      .page {
+        padding: 2rem 1.25rem;
+        border-radius: 24px;
+      }
+    }
+
+    /* 主视觉区 — 类似引语卡片 */
+    .hero-card {
+      background: #f1ede4;
+      padding: 2.5rem 2rem;
+      border-radius: 24px;
+      margin-bottom: 2.8rem;
+      border-left: 6px solid #b8a99a;
+    }
+
+    .hero-card h1 {
+      font-size: 2.2rem;
+      font-weight: 450;
+      letter-spacing: 0.02em;
+      color: #3d352c;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-card .sub {
+      font-size: 1.05rem;
+      color: #5f5548;
+      max-width: 680px;
+    }
+
+    /* 网格卡片区 */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    .info-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e9e2d9;
+      transition: box-shadow 0.2s;
+    }
+
+    .info-card:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .info-card .card-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0d6cb;
+      color: #3f372e;
+    }
+
+    .info-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .info-card li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed #ede7df;
+      color: #4c433a;
+      font-size: 0.95rem;
+    }
+
+    .info-card li:last-child {
+      border-bottom: none;
+    }
+
+    .info-card li::before {
+      content: "·";
+      font-weight: 700;
+      margin-right: 0.5rem;
+      color: #b8a99a;
+    }
+
+    /* 段落引用 / 提示框 */
+    .callout {
+      background: #f3efe8;
+      padding: 1.8rem 2rem;
+      border-radius: 20px;
+      margin: 2.5rem 0;
+      border: 1px solid #e0d8cd;
+      color: #3d352c;
+    }
+
+    .callout strong {
+      color: #4d4033;
+      font-weight: 550;
+    }
+
+    .callout a {
+      color: #3f352a;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: #bfb0a0;
+      font-weight: 500;
+    }
+
+    .callout a:hover {
+      color: #6b5a48;
+      text-decoration-color: #6b5a48;
+    }
+
+    .inline-link-unit {
+      margin: 2rem 0 1.2rem 0;
+      font-size: 1rem;
+      background: #f9f6f0;
+      padding: 1.2rem 1.8rem;
+      border-radius: 40px;
+      display: inline-block;
+      border: 1px solid #e3dbd0;
+    }
+
+    .inline-link-unit a {
+      color: #3f352a;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 500;
+    }
+
+    .inline-link-unit a:hover {
+      color: #6b5a48;
+    }
+
+    /* 自然链接段落，放在正文中 */
+    .natural-link-sentence {
+      margin: 2rem 0;
+      padding: 0 0.25rem;
+      color: #4f463a;
+    }
+
+    .natural-link-sentence a {
+      color: #3d352c;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: #c4b6a6;
+      font-weight: 500;
+    }
+
+    .natural-link-sentence a:hover {
+      color: #5f4f3d;
+    }
+
+    /* FAQ 摘要区 */
+    .faq-mini {
+      margin: 3rem 0 1rem 0;
+    }
+
+    .faq-mini h3 {
+      font-weight: 470;
+      font-size: 1.3rem;
+      color: #3d352c;
+      margin-bottom: 0.8rem;
+    }
+
+    .faq-item {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #ece4db;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-weight: 500;
+      color: #3f372e;
+    }
+
+    .faq-a {
+      margin-top: 0.3rem;
+      color: #5f5548;
+      font-size: 0.95rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e3dbd0;
+      margin: 2.2rem 0;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #8b7d6d;
+      font-size: 0.85rem;
+      margin-top: 2.5rem;
+      border-top: 1px solid #e9e2d9;
+      padding-top: 1.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- hero 主视觉卡片 -->
+    <div class="hero-card">
+      <h1>乐鱼 · 信息卡片</h1>
+      <div class="sub">
+        从日常查询到对照延伸，把零碎信息整理成可随时翻阅的笔记式卡片。
+        这里不是门户，更像一个安静的桌面文件夹。
+      </div>
+    </div>
+
+    <!-- 两栏卡片：用途 & 适合人群 -->
+    <div class="grid-2col">
+      <div class="info-card">
+        <div class="card-title">📋 日常用途</div>
+        <ul>
+          <li>快速对照常见参数、版本、术语定义</li>
+          <li>随手查阅使用场景与边界说明</li>
+          <li>延伸阅读：关联概念、对比参考</li>
+          <li>离线友好的轻量信息整理</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="card-title">👥 适合人群</div>
+        <ul>
+          <li>喜欢把信息卡片化、结构化的人</li>
+          <li>需要一份干净、克制的参考页</li>
+          <li>希望减少搜索时间，快速对照</li>
+          <li>偏向生活化但不想失去正式质感</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 引用框 / 提示区块（含自然链接） -->
+    <div class="callout">
+      <strong>💡 关于「乐鱼」</strong><br>
+      你可以把这里看作一个轻量信息卡片集——没有弹窗、没有横幅、没有排名。
+      日常需要对照某些概念、查看用途描述、或者单纯想浏览一段延伸内容时，
+      不妨把 <a href="https://homevip-leyu.com">乐鱼</a> 当作一个安静的信息停靠站。
+      页面所有卡片均来自公开资料的整理与重新叙述，力求准确但保持非正式解读的克制。
+    </div>
+
+    <!-- 自然链接段落（句子形式） -->
+    <div class="natural-link-sentence">
+      很多朋友在查阅资料时会开好几个标签页，来回切换反而容易乱。
+      如果你也在找一种更接近纸笔感的在线参考方式，可以试试
+      <a href="https://homevip-leyu.com">乐鱼</a> ——
+      它不追求大而全，更专注于把信息切成卡片，方便你按需对照、延伸。
+      比如某天你想快速了解某个功能的适用场景，或者对比几个相似概念的区别，
+      在这里或许能找到一段干净的描述。
+    </div>
+
+    <!-- 另一个提示框（引用风格） -->
+    <div class="callout" style="background: #f7f2eb; border-left: 4px solid #d4c5b5;">
+      <strong>📌 延伸阅读提示</strong><br>
+      卡片中的每一条都尽量附有简短说明，部分条目配有对照表格或备注。
+      如果你是在手机端浏览，卡片会自动变成单列，阅读体验依然平整。
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+      <h3>❓ 常见疑问摘要</h3>
+      <div class="faq-item">
+        <div class="faq-q">这些卡片会频繁更新吗？</div>
+        <div class="faq-a">内容会依据可靠资料做阶段性核对，但不会每天变动。更适合作为固定参考，而非即时资讯。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">卡片里的信息从哪里来？</div>
+        <div class="faq-a">来自公开文档、规范说明以及常见使用场景的提炼，不做主观延伸或夸大表述。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">我可以直接引用或分享卡片内容吗？</div>
+        <div class="faq-a">当然可以，卡片本身就是为对照与分享而设计的。建议保留出处或链接，保持信息完整。</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 收尾段落：自然嵌入链接，无诱导词 -->
+    <p style="color: #4f463a; margin-top: 0.8rem;">
+      如果你恰好需要这类信息卡片式的参考页，
+      <a href="https://homevip-leyu.com">乐鱼</a> 或许能成为你日常查询和延伸阅读的一个安静角落。
+      不打扰、不催促，像一本翻到哪页算哪页的笔记本。
+    </p>
+
+    <div class="footer-note">
+      信息卡片 · 日常对照 · 延伸阅读
+    </div>
+
+  </div>
+</body>
+</html>
